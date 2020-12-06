@@ -55,7 +55,7 @@ router.post('/login', (req, res, next) => {
   db.query(
     `SELECT * FROM users WHERE email = ${db.escape(req.body.email)};`,
     (err, result) => {
-   
+      // user does not exists
       if (err) {
         throw err;
         return res.status(400).send({

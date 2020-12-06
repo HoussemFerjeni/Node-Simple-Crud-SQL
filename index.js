@@ -20,5 +20,9 @@ app.use(bodyParser.urlencoded({limit: '60mb', extended: true}));
 
 const user = require('./routes/user');
 app.use('/api', user);
+const freelance = require('./routes/freelance');
+app.use('/api/freelance', freelance);
+
+
 
 app.listen(3000 , () => console.log("Local FDS server is running "));
