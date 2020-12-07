@@ -4,15 +4,14 @@ const db = require('../config/db');
 
 router.post('/create',(req, res, next) => {
     db.query(
-        `INSERT INTO freelance (id,nom, prenom, linkedin, description, github, age,phone) VALUES (
+        `INSERT INTO client (id,nom, nb, description, phone, pays, mf) VALUES (
         ${db.escape(req.body.id)},
         ${db.escape(req.body.nom)},
-        ${db.escape(req.body.prenom)},
-        ${db.escape(req.body.linkedin)},
+        ${db.escape(req.body.nb)},
         ${db.escape(req.body.description)},
-        ${db.escape(req.body.github)},
-        ${db.escape(req.body.age)},
-        ${db.escape(req.body.phone)})`,
+        ${db.escape(req.body.phone)},
+        ${db.escape(req.body.pays)},
+        ${db.escape(req.body.mf)})`,
         
           (err, result) => {
             if (err) {
@@ -31,7 +30,7 @@ router.post('/create',(req, res, next) => {
 router.post('/show',(req, res, next) => {
  
     db.query(
-      `SELECT * FROM freelance WHERE id = ${db.escape(req.body.id)};`,
+      `SELECT * FROM client WHERE id = ${db.escape(req.body.id)};`,
       (err, result) => {
         // user does not exists
         if (err) {
@@ -48,7 +47,7 @@ router.post('/show',(req, res, next) => {
 router.post('/showall',(req, res, next) => {
  
   db.query(
-    `SELECT * FROM freelance `,
+    `SELECT * FROM client `,
     (err, result) => {
       // user does not exists
       if (err) {
@@ -65,7 +64,7 @@ router.post('/showall',(req, res, next) => {
 router.post('/delete',(req, res, next) => {
  
   db.query(
-    `DELETE FROM freelance WHERE id = ${db.escape(req.body.id)};`,
+    `DELETE FROM client WHERE id = ${db.escape(req.body.id)};`,
     (err, result) => {
       // user does not exists
       if (err) {

@@ -22,6 +22,12 @@ const user = require('./routes/user');
 app.use('/api', user);
 const freelance = require('./routes/freelance');
 app.use('/api/freelance', freelance);
+const client = require('./routes/client');
+app.use('/api/client', client);
+const mission = require('./routes/mission');
+app.use('/api/mission', mission);
+const post = require('./routes/post');
+app.use('/api/post', post);
 
 
 

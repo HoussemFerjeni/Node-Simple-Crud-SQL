@@ -4,15 +4,11 @@ const db = require('../config/db');
 
 router.post('/create',(req, res, next) => {
     db.query(
-        `INSERT INTO freelance (id,nom, prenom, linkedin, description, github, age,phone) VALUES (
+        `INSERT INTO post (id,titre, userid, description) VALUES (
         ${db.escape(req.body.id)},
-        ${db.escape(req.body.nom)},
-        ${db.escape(req.body.prenom)},
-        ${db.escape(req.body.linkedin)},
-        ${db.escape(req.body.description)},
-        ${db.escape(req.body.github)},
-        ${db.escape(req.body.age)},
-        ${db.escape(req.body.phone)})`,
+        ${db.escape(req.body.titre)},
+        ${db.escape(req.body.userid)},
+        ${db.escape(req.body.description)})`,
         
           (err, result) => {
             if (err) {
@@ -31,7 +27,7 @@ router.post('/create',(req, res, next) => {
 router.post('/show',(req, res, next) => {
  
     db.query(
-      `SELECT * FROM freelance WHERE id = ${db.escape(req.body.id)};`,
+      `SELECT * FROM post WHERE id = ${db.escape(req.body.id)};`,
       (err, result) => {
         // user does not exists
         if (err) {
@@ -48,7 +44,7 @@ router.post('/show',(req, res, next) => {
 router.post('/showall',(req, res, next) => {
  
   db.query(
-    `SELECT * FROM freelance `,
+    `SELECT * FROM post `,
     (err, result) => {
       // user does not exists
       if (err) {
@@ -65,7 +61,7 @@ router.post('/showall',(req, res, next) => {
 router.post('/delete',(req, res, next) => {
  
   db.query(
-    `DELETE FROM freelance WHERE id = ${db.escape(req.body.id)};`,
+    `DELETE FROM post WHERE id = ${db.escape(req.body.id)};`,
     (err, result) => {
       // user does not exists
       if (err) {
@@ -74,10 +70,27 @@ router.post('/delete',(req, res, next) => {
           msg: err
         });
       }else{
-       res.send({message : "profile supprimer"});
+       res.send({message : "post supprimer"});
       }
 });
   });
+
+  router.post('/showbyfreelance',(req, res, next) => {
+ 
+    db.query(
+      `SELECT * FROM post WHERE userid = ${db.escape(req.body.userid)};`,
+      (err, result) => {
+        // user does not exists
+        if (err) {
+          throw err;
+          return res.status(400).send({
+            msg: err
+          });
+        }else{
+         res.send(result);
+        }
+  });
+    });
 
 
 
