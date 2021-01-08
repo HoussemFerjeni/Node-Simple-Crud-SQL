@@ -4,6 +4,15 @@ const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const db = require('../config/db');
+const { query } = require('express');
+const mailer = require('nodemailer')
+var transporter = mailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'houssem.ferjani@esprit.tn',
+        pass: 'hmissa1997'
+    }
+})
 
 router.post('/signup',(req, res, next) => {
     db.query(
@@ -23,23 +32,22 @@ router.post('/signup',(req, res, next) => {
                 msg: err
               });
             } else {
+id = uuid.v4();
+const ide = {
+ id
+}
               // has hashed pw => add to database
               db.query(
-                `INSERT INTO users (id, email, password, roles) VALUES ('${uuid.v4()}', ${db.escape(
+                `INSERT INTO users (id, email, password, roles) VALUES ('${id}', ${db.escape(
                   req.body.email
-                )}, ${db.escape(hash)}, ${db.escape(req.body.roles)})`,
-                (err, result) => {
-                  if (err) {
-                    throw err;
-                    return res.status(400).send({
-                      msg: err
-                    });
-                  }else {
-                      res.send(result);
+                )}, ${db.escape(hash)}, ${db.escape(req.body.roles)})`
+                , function(error, results){
+                  if ( error ){
+                      res.status(400).send('Error in database operation');
+                  } else {
+                    res.send(ide);
                   }
-            
-                }
-              );
+                 } );
             }
           });
         }
@@ -106,6 +114,37 @@ router.post('/login', (req, res, next) => {
       );
     }
   );
+});
+
+router.post('/ForgotPass',(request,response)=> {
+  var post_data = request.body;
+  var mailC=post_data.email;
+  var token1= uuid.v4();
+var pwd = bcrypt.hashSync(token1, 10);
+
+db.query('select * from users where email=?', [mailC], function (error, result, fields) {
+
+      if (result && result.length) {
+        
+          db.query('UPDATE users SET `password`=?  WHERE `email`=?',[pwd,mailC],function (err,rows,fields){
+              if (err)console.log(err);
+              else console.log('done');
+              // res.redirect('/login/');
+          })
+
+      }
+      var mailOptions={
+          from: 'houssem.ferjani@esprit.com',
+          to: mailC,
+          subject : ' Forget Passsword',
+          text: 'votre nouveau mdp est :'+token1,
+      };
+      transporter.sendMail(mailOptions,function (error,info) {
+          if (error){console.log(error)}
+          else console.log('email envoyé ');
+
+      });
+  })
 });
 
   module.exports = router;

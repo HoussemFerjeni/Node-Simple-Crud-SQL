@@ -20,6 +20,8 @@ app.use(bodyParser.urlencoded({limit: '60mb', extended: true}));
 
 const user = require('./routes/user');
 app.use('/api', user);
+const getuser = require('./routes/getuser');
+app.use('/api', getuser);
 const freelance = require('./routes/freelance');
 app.use('/api/freelance', freelance);
 const client = require('./routes/client');

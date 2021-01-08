@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
-
+const uuid = require('uuid');
 router.post('/create',(req, res, next) => {
     db.query(
         `INSERT INTO post (id,titre, userid, description) VALUES (
-        ${db.escape(req.body.id)},
+          '${uuid.v4()}', 
         ${db.escape(req.body.titre)},
         ${db.escape(req.body.userid)},
         ${db.escape(req.body.description)})`,

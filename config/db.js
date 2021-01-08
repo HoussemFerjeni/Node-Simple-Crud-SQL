@@ -1,4 +1,4 @@
-var mysql = require('mysql2'); 
+var mysql = require('mysql'); 
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -6,13 +6,6 @@ var connection = mysql.createConnection({
     password: "root",
     port : 8889, 
     database: "fds",
-    dialect: "mysql",
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
-    }
   });
   
   connection.connect(function(err) {
