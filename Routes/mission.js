@@ -96,6 +96,26 @@ router.post('/delete',(req, res, next) => {
     });
 
 
+    router.post('/postule',(req, res, next) => {
+ 
+      db.query(
+        `INSERT INTO postule (userid, nomposte) VALUES (
+        ${db.escape(req.body.userid)},
+        ${db.escape(req.body.nomposte)})`,
+        
+          (err, result) => {
+            if (err) {
+              throw err;
+              return res.status(400).send({
+                msg: err
+              });
+            }else {
+                res.send(req.body);
+            }
+          });
+      });
+
+
 
 
 module.exports = router;

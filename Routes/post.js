@@ -22,6 +22,26 @@ router.post('/create',(req, res, next) => {
           });
 });
 
+router.post('/comment',(req, res, next) => {
+  db.query(
+      `INSERT INTO comment (postid, userid, message) VALUES (
+
+      ${db.escape(req.body.postid)},
+      ${db.escape(req.body.userid)},
+      ${db.escape(req.body.message)})`,
+      
+        (err, result) => {
+          if (err) {
+            throw err;
+            return res.status(400).send({
+              msg: err
+            });
+          }else {
+              res.send(req.body);
+          }
+        });
+});
+
 
 
 router.post('/show',(req, res, next) => {
