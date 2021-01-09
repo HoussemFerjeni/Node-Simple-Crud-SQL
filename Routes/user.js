@@ -152,7 +152,7 @@ router.post('/changepass',(request,response)=> {
   var post_data = request.body;
   var mailC = post_data.email;
   var pwd1 = post_data.pwd;
-var pwd = bcrypt.hashSync(pwd, 10);
+var pwd = bcrypt.hashSync(pwd1, 10);
 
 db.query('select * from users where email=?', [mailC], function (error, result, fields) {
 
