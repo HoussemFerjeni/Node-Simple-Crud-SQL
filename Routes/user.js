@@ -147,4 +147,26 @@ db.query('select * from users where email=?', [mailC], function (error, result, 
   })
 });
 
+
+router.post('/changepass',(request,response)=> {
+  var post_data = request.body;
+  var mailC = post_data.email;
+  var pwd1 = post_data.pwd;
+var pwd = bcrypt.hashSync(pwd, 10);
+
+db.query('select * from users where email=?', [mailC], function (error, result, fields) {
+
+      if (result && result.length) {
+        
+          db.query('UPDATE users SET `password`=?  WHERE `email`=?',[pwd,mailC],function (err,rows,fields){
+              if (err)console.log(err);
+              else console.log('done');
+              // res.redirect('/login/');
+          })
+
+      }
+ 
+  })
+});
+
   module.exports = router;
