@@ -41,6 +41,24 @@ router.post('/comment',(req, res, next) => {
           }
         });
 });
+router.post('/rating',(req, res, next) => {
+  db.query(
+      `INSERT INTO rating (userid, postid, nb) VALUES (
+        ${db.escape(req.body.userid)},
+      ${db.escape(req.body.postid)},
+      ${db.escape(req.body.nb)})`,
+      
+        (err, result) => {
+          if (err) {
+            throw err;
+            return res.status(400).send({
+              msg: err
+            });
+          }else {
+              res.send(req.body);
+          }
+        });
+});
 
 
 
