@@ -41,6 +41,24 @@ router.post('/comment',(req, res, next) => {
           }
         });
 });
+router.post('/Showcomment',(req, res, next) => {
+  db.query(
+      `SELECT * FROM comment WHERE postid = ${db.escape(req.body.id)}`,
+      
+    (err, result) => {
+      // user does not exists
+      if (err) {
+        throw err;
+        return res.status(400).send({
+          msg: err
+        });
+      }else{
+       res.send(result);
+      }
+});
+});
+
+
 router.post('/rating',(req, res, next) => {
   db.query(
       `INSERT INTO rating (userid, postid, nb) VALUES (

@@ -59,8 +59,8 @@ const ide = {
 
 
 
-router.post('/login', (req, res, next) => {
-  db.query(
+router.post('/login', async (req, res, next) => {
+  await db.query(
     `SELECT * FROM users WHERE email = ${db.escape(req.body.email)};`,
     (err, result) => {
       // user does not exists
@@ -131,7 +131,7 @@ db.query('select * from users where email=?', [mailC], function (error, result, 
               else console.log('done');
               // res.redirect('/login/');
           })
-
+          response.send(result)
       }
       var mailOptions={
           from: 'houssem.ferjani@esprit.com',

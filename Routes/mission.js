@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 
-router.post('/create',(req, res, next) => {
-    db.query(
-        `INSERT INTO mission (id,userid, nomposte, datedeb, datefin, description, tjm) VALUES (
-        ${db.escape(req.body.id)},
+router.post('/create',async(req, res, next) => {
+   await db.query(
+        `INSERT INTO mission (userid, nomposte, datedeb, datefin, description, tjm) VALUES (
+       
         ${db.escape(req.body.userid)},
         ${db.escape(req.body.nomposte)},
         ${db.escape(req.body.datedeb)},
@@ -78,9 +78,9 @@ router.post('/delete',(req, res, next) => {
 });
   });
 
-  router.post('/showbyclient',(req, res, next) => {
+  router.post('/showbyclient',async(req, res) => {
  
-    db.query(
+   await db.query(
       `SELECT * FROM mission WHERE userid = ${db.escape(req.body.userid)};`,
       (err, result) => {
         // user does not exists
@@ -99,9 +99,10 @@ router.post('/delete',(req, res, next) => {
     router.post('/postule',(req, res, next) => {
  
       db.query(
-        `INSERT INTO postule (userid, nomposte) VALUES (
+        `INSERT INTO postule (userid, nomposte,clientid) VALUES (
         ${db.escape(req.body.userid)},
-        ${db.escape(req.body.nomposte)})`,
+        ${db.escape(req.body.nomposte)},
+        ${db.escape(req.body.clientid)})`,
         
           (err, result) => {
             if (err) {
